@@ -2,7 +2,6 @@ from collections import deque
 
 
 def solution(begin, target, words):
-
     if target not in words:
         return 0
 
@@ -21,8 +20,17 @@ def solution(begin, target, words):
             if not visited[i]:
                 for j in range(len(word)):
                     if word[j] != words[i][j]:
-                        cnt = cnt + 1
-
+                        cnt += 1
             if cnt == 1:
                 deq.append([words[i], step + 1])
                 visited[i] = True
+
+    # If target wasn't reached
+    return 0
+
+
+# Example tests:
+# Expected output: 4
+print(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+# Expected output: 0
+print(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
