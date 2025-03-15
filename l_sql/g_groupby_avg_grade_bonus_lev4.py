@@ -1,0 +1,33 @@
+"""
+COUNT COLUMN NULL RETURN 0 
+
+1. bonus is zero
+WITH EmpAvg AS (
+    SELECT 
+        EMP_NO, 
+        AVG(SCORE) AS AVG_SCORE
+    FROM HR_GRADE
+    WHERE YEAR = 2022
+    GROUP BY EMP_NO
+)
+SELECT 
+    E.EMP_NO,
+    E.EMP_NAME,
+    CASE 
+        WHEN EA.AVG_SCORE >= 96 THEN 'S'
+        WHEN EA.AVG_SCORE >= 90 THEN 'A'
+        WHEN EA.AVG_SCORE >= 80 THEN 'B'
+        ELSE 'C'
+    END AS GRADE,
+    CASE 
+        WHEN EA.AVG_SCORE >= 96 THEN FLOOR(E.SAL * 0.20)
+        WHEN EA.AVG_SCORE >= 90 THEN FLOOR(E.SAL * 0.15)
+        WHEN EA.AVG_SCORE >= 80 THEN FLOOR(E.SAL * 0.10)
+        ELSE 0 --> should be zero
+    END AS BONUS
+FROM HR_EMPLOYEES E
+JOIN EmpAvg EA 
+    ON E.EMP_NO = EA.EMP_NO
+ORDER BY E.EMP_NO;
+
+"""

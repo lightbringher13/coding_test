@@ -1,0 +1,34 @@
+"""
+1.with, recursive
+WITH RECURSIVE ECOLI_GEN AS (
+SELECT
+    ID,
+    PARENT_ID,
+    1 AS GEN
+FROM
+    ECOLI_DATA
+WHERE
+    PARENT_ID IS NULL
+
+UNION ALL
+    
+SELECT
+    E.ID,
+    E.PARENT_ID,
+    GEN + 1 AS GEN
+FROM
+    ECOLI_DATA E
+INNER JOIN
+    ECOLI_GEN G
+    ON
+    E.PARENT_ID = G.ID
+)
+SELECT
+    ID
+FROM
+    ECOLI_GEN
+WHERE
+    GEN = 3
+ORDER BY
+    ID
+"""

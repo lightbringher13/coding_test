@@ -1,0 +1,47 @@
+"""
+1. max
+WITH DEV_SK AS (
+SELECT
+    D.ID,
+    D.EMAIL,
+    MAX(CASE
+        WHEN CATEGORY = "Front End" THEN 1
+        ELSE 0 
+    END) AS FRONT_END,
+    MAX(CASE
+        WHEN NAME = "C#" THEN 1
+        ELSE 0
+    END) AS C_SHOP,
+    MAX(CASE
+        WHEN NAME = "Python" THEN 1
+        ELSE 0
+    END) AS PYTHON
+FROM
+    DEVELOPERS D
+INNER JOIN
+    SKILLCODES S
+    ON
+    D.SKILL_CODE & S.CODE != 0
+GROUP BY
+    D.ID,D.EMAIL
+ORDER BY
+    D.ID
+), RESULT AS (SELECT
+    CASE
+        WHEN FRONT_END = 1 AND PYTHON = 1 THEN "A"
+        WHEN C_SHOP = 1 THEN "B"
+        WHEN  FRONT_END = 1 THEN "C"
+    END AS GRADE,
+    ID,
+    EMAIL
+FROM
+    DEV_SK
+ORDER BY
+    GRADE,ID)
+SELECT
+    *
+FROM
+    RESULT
+WHERE
+    GRADE IS NOT NULL
+"""
